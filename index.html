@@ -165,48 +165,6 @@
             transform: translateY(-2px);
         }
 
-        .nav-actions {
-            position: absolute;
-            right: 0;
-            display: flex;
-            gap: 1rem;
-            animation: fadeInRight 0.8s ease;
-        }
-
-        .btn-auth {
-            padding: 0.7rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-
-        .btn-login {
-            background: transparent;
-            color: var(--light);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-login:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .btn-register {
-            background: var(--gradient);
-            color: white;
-            box-shadow: var(--shadow);
-        }
-
-        .btn-register:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-            animation: glow 2s infinite;
-        }
-
         /* Секции */
         .section {
             min-height: 100vh;
@@ -534,21 +492,100 @@
         /* Отзывы */
         .reviews {
             background: var(--dark);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
         }
 
-        .reviews-content {
-            text-align: center;
-            max-width: 600px;
+        .review-user {
+            flex: 1;
         }
 
-        .reviews-icon {
-            font-size: 6rem;
-            margin-bottom: 2rem;
-            opacity: 0.5;
-            animation: float 3s ease-in-out infinite;
+        .review-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .review-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .review-content {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .review-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .review-amount {
+            font-weight: 700;
+            font-size: 1.3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .review-source {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .review-screenshot {
+            width: 100%;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-style: italic;
         }
 
         /* Модальные окна */
@@ -878,13 +915,6 @@
                 width: 100%;
             }
             
-            .nav-actions {
-                position: static;
-                order: 1;
-                justify-content: center;
-                width: 100%;
-            }
-            
             .nav-links {
                 gap: 1rem;
                 justify-content: center;
@@ -930,6 +960,10 @@
                 width: 95%;
                 margin: 1rem;
             }
+            
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -960,6 +994,10 @@
             }
             
             .payment-body {
+                padding: 1.5rem;
+            }
+            
+            .review-card {
                 padding: 1.5rem;
             }
         }
@@ -1004,11 +1042,6 @@
                         <li><a class="nav-link" data-section="tariffs">Тарифы</a></li>
                         <li><a class="nav-link" data-section="reviews">Отзывы</a></li>
                     </ul>
-                </div>
-                
-                <div class="nav-actions">
-                    <button class="btn-auth btn-login" id="loginBtn">Войти</button>
-                    <button class="btn-auth btn-register" id="registerBtn">Регистрация</button>
                 </div>
             </nav>
         </div>
@@ -1155,15 +1188,133 @@
     <section id="reviews" class="section">
         <div class="reviews">
             <div class="container">
-                <div class="reviews-content">
-                    <div class="reviews-icon">💬</div>
-                    <h2 class="section-title">Отзывы</h2>
+                <div class="section-header">
+                    <h2 class="section-title">Реальные отзывы</h2>
                     <p class="section-subtitle">
-                        Здесь будут отображаться отзывы наших довольных клиентов
+                        Посмотрите, что говорят наши клиенты о результатах работы с программой
                     </p>
-                    <p style="color: var(--gray); margin-top: 2rem;">
-                        Раздел в разработке...
-                    </p>
+                </div>
+
+                <div class="reviews-grid">
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">R</div>
+                            <div class="review-user">
+                                <div class="review-name">Raddan</div>
+                                <div class="review-date">Сегодня</div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            "бля братик от души тебе за бога, реально до последнего не верил, потом в моменте от знакомых услышал, что все работает спасибо большое"
+                        </div>
+                        <div class="review-screenshot">
+                            [Скриншот: Пополнение на 1000 ₽ и текущий баланс]
+                        </div>
+                        <div class="review-stats">
+                            <div class="review-amount">+28 000 ₽</div>
+                            <div class="review-source">3-й день работы</div>
+                        </div>
+                    </div>
+
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">А</div>
+                            <div class="review-user">
+                                <div class="review-name">Аноним</div>
+                                <div class="review-date">Сегодня</div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            "Хочу сказать спасибо большое. Почти 20 тысяч сделал все на минах, сегодня 3й день. Хочу сделать 50 тысяч рублей и вывести"
+                        </div>
+                        <div class="review-screenshot">
+                            [Скриншот: Баланс ~20 000 ₽]
+                        </div>
+                        <div class="review-stats">
+                            <div class="review-amount">+20 000 ₽</div>
+                            <div class="review-source">3-й день работы</div>
+                        </div>
+                    </div>
+
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">H</div>
+                            <div class="review-user">
+                                <div class="review-name">hard</div>
+                                <div class="review-date">В сети</div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            "Выигрыш 80 тысяч. Почему частями выводили? - Так бывает иногда"
+                        </div>
+                        <div class="review-screenshot">
+                            [Скриншот: История операций 29 680 ₽, баланс 132 034 ₽]
+                        </div>
+                        <div class="review-stats">
+                            <div class="review-amount">+80 000 ₽</div>
+                            <div class="review-source">Выигрыш</div>
+                        </div>
+                    </div>
+
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">А</div>
+                            <div class="review-user">
+                                <div class="review-name">Аноним</div>
+                                <div class="review-date">Недавно</div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            "вообщем все с кайфом только скрины блин забыл сделать... кароче одним слово отвал просто думаю на днях пойду телефон обновлять или девушке что нибудь подарю"
+                        </div>
+                        <div class="review-screenshot">
+                            [Скриншот: Выигрыш 9650 ₽ х1.93]
+                        </div>
+                        <div class="review-stats">
+                            <div class="review-amount">+38 600 ₽</div>
+                            <div class="review-source">Общий выигрыш</div>
+                        </div>
+                    </div>
+
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">А</div>
+                            <div class="review-user">
+                                <div class="review-name">Аноним</div>
+                                <div class="review-date">Недавно</div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            "Щас короче с новым аккаунтом уже работаю и все норм... Сегодня 3й день. Наверн до 50к докручу и буду выводить"
+                        </div>
+                        <div class="review-screenshot">
+                            [Скриншот: Баланс 33 217,54 ₽]
+                        </div>
+                        <div class="review-stats">
+                            <div class="review-amount">+28 000 ₽</div>
+                            <div class="review-source">Чистая прибыль</div>
+                        </div>
+                    </div>
+
+                    <div class="review-card fade-in">
+                        <div class="review-header">
+                            <div class="review-avatar">А</div>
+                            <div class="review-user">
+                                <div class="review-name">Аноним</div>
+                                <div class="review-date">Недавно</div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            "пополнился на 1000 ₽ и сейчас такой баланс имею, примерно час ушел м6 меньше даже... нервничал сначала, сейчас на таком спокойствие сижу и зарабатываю"
+                        </div>
+                        <div class="review-screenshot">
+                            [Скриншот: Основной счет 10 221,33 ₽]
+                        </div>
+                        <div class="review-stats">
+                            <div class="review-amount">+9 221 ₽</div>
+                            <div class="review-source">За 1 час</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1228,57 +1379,6 @@
         </div>
     </div>
 
-    <!-- Модальные окна авторизации -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <button class="close-modal">&times;</button>
-            <div class="modal-header">
-                <h3 class="modal-title">Вход в аккаунт</h3>
-                <p style="color: var(--gray);">Войдите в свой аккаунт</p>
-            </div>
-            <form class="auth-form">
-                <div class="form-group">
-                    <label class="form-label">Email или логин</label>
-                    <input type="text" class="form-input" placeholder="Введите ваш email или логин" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Пароль</label>
-                    <input type="password" class="form-input" placeholder="Введите ваш пароль" required>
-                </div>
-                <button type="submit" class="btn-tariff">Войти</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="modal" id="registerModal">
-        <div class="modal-content">
-            <button class="close-modal">&times;</button>
-            <div class="modal-header">
-                <h3 class="modal-title">Регистрация</h3>
-                <p style="color: var(--gray);">Создайте новый аккаунт</p>
-            </div>
-            <form class="auth-form">
-                <div class="form-group">
-                    <label class="form-label">Имя пользователя</label>
-                    <input type="text" class="form-input" placeholder="Придумайте логин" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-input" placeholder="Введите ваш email" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Пароль</label>
-                    <input type="password" class="form-input" placeholder="Придумайте пароль" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Подтвердите пароль</label>
-                    <input type="password" class="form-input" placeholder="Повторите пароль" required>
-                </div>
-                <button type="submit" class="btn-tariff">Зарегистрироваться</button>
-            </form>
-        </div>
-    </div>
-
     <script>
         // Основная функциональность сайта
         class SwillApp {
@@ -1326,10 +1426,6 @@
                         });
                     }
                 });
-
-                // Обработчики для модальных окон авторизации
-                document.getElementById('loginBtn').addEventListener('click', () => this.openModal('loginModal'));
-                document.getElementById('registerBtn').addEventListener('click', () => this.openModal('registerModal'));
 
                 // Закрытие модальных окон
                 document.querySelectorAll('.close-modal').forEach(closeBtn => {
