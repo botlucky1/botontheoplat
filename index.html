@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SWILL - Автоматизированный заработок</title>
+    <title>SV_SEASON - Автоматизированный заработок</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -163,6 +163,16 @@
         .nav-link:hover {
             background: rgba(255, 255, 255, 0.05);
             transform: translateY(-2px);
+        }
+
+        .logo {
+            position: absolute;
+            left: 20px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Секции */
@@ -884,6 +894,92 @@
             margin-bottom: 2rem;
         }
 
+        /* Окно успешной оплаты */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 4000;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .success-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--darker);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 450px;
+            width: 95%;
+            text-align: center;
+        }
+
+        .success-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .success-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .success-body {
+            padding: 2rem;
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: var(--light);
+        }
+
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .telegram-btn:hover {
+            background: #0077b5;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.3);
+        }
+
+        .telegram-icon {
+            font-size: 1.4rem;
+        }
+
         /* Адаптивность */
         @media (max-width: 1024px) {
             .nav-links {
@@ -901,6 +997,12 @@
             .nav-center {
                 order: 2;
                 width: 100%;
+            }
+            
+            .logo {
+                position: static;
+                order: 1;
+                margin-bottom: 1rem;
             }
             
             .nav-links {
@@ -944,7 +1046,8 @@
                 transform: translateY(-10px);
             }
             
-            .payment-content {
+            .payment-content,
+            .success-content {
                 width: 95%;
                 margin: 1rem;
             }
@@ -981,7 +1084,8 @@
                 font-size: 0.9rem;
             }
             
-            .payment-body {
+            .payment-body,
+            .success-body {
                 padding: 1.5rem;
             }
             
@@ -1023,6 +1127,7 @@
     <header class="header">
         <div class="container">
             <nav class="nav">
+                <div class="logo">SV_SEASON</div>
                 <div class="nav-center">
                     <ul class="nav-links">
                         <li><a class="nav-link active" data-section="hero">Главная</a></li>
@@ -1294,7 +1399,7 @@
     <div class="payment-modal" id="paymentModal">
         <div class="payment-content">
             <div class="payment-header">
-                <div class="payment-logo">SWILL</div>
+                <div class="payment-logo">SV_SEASON</div>
                 <div class="payment-subtitle">БЕЗОПАСНАЯ ОПЛАТА</div>
             </div>
             
@@ -1334,7 +1439,7 @@
                 </div>
                 
                 <div class="payment-buttons">
-                    <button class="payment-btn payment-btn-primary" onclick="completePayment()">
+                    <button class="payment-btn payment-btn-primary" onclick="showSuccessModal()">
                         ✅ Я оплатил(а)
                     </button>
                     <button class="payment-btn payment-btn-secondary" onclick="contactSupport()">
@@ -1344,6 +1449,33 @@
                 
                 <div class="payment-status">
                     🔐 Статус: <span id="paymentStatus">Ожидаем оплату...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Окно успешной оплаты -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-header">
+                <div class="success-icon">🎉</div>
+                <h2 class="success-title">Оплата принята!</h2>
+            </div>
+            
+            <div class="success-body">
+                <p class="success-message">
+                    Чтобы получить бота, нажимай на кнопку ниже. 
+                    Мы отправим тебе доступ в Telegram в течение 5 минут после оплаты.
+                </p>
+                
+                <a href="https://t.me/Serg_manage" class="telegram-btn" target="_blank">
+                    <span class="telegram-icon">📱</span>
+                    Перейти в Telegram
+                </a>
+                
+                <div style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--gray);">
+                    Если возникли проблемы - напиши в поддержку: 
+                    <a href="https://t.me/artem4514" style="color: var(--primary); text-decoration: none;">@artem4514</a>
                 </div>
             </div>
         </div>
@@ -1446,14 +1578,14 @@
                 // ESC для закрытия модальных окон
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
-                        document.querySelectorAll('.modal, .payment-modal').forEach(modal => {
+                        document.querySelectorAll('.modal, .payment-modal, .success-modal').forEach(modal => {
                             this.closeModal(modal);
                         });
                     }
                 });
 
                 // Закрытие по клику вне области
-                document.querySelectorAll('.modal, .payment-modal').forEach(modal => {
+                document.querySelectorAll('.modal, .payment-modal, .success-modal').forEach(modal => {
                     modal.addEventListener('click', (e) => {
                         if (e.target === modal) {
                             this.closeModal(modal);
@@ -1543,33 +1675,14 @@
                 }, 1000);
             }
 
-            completePayment() {
-                document.getElementById('paymentStatus').textContent = 'Оплата подтверждена ✅';
-                document.getElementById('paymentStatus').style.color = '#10b981';
+            showSuccessModal() {
+                // Закрываем окно оплаты
+                this.closeModal(document.getElementById('paymentModal'));
                 
-                // Показываем успешное сообщение
-                const paymentBody = document.querySelector('.payment-body');
-                const successHTML = `
-                    <div class="payment-success">
-                        <div class="payment-product-title">🎉 Оплата принята!</div>
-                        <div style="margin-top: 1rem; font-size: 1.1rem;">
-                            Ваш тариф активирован
-                        </div>
-                        <div style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
-                            Доступ откроется в течение 5 минут
-                        </div>
-                    </div>
-                    <div class="payment-buttons">
-                        <button class="payment-btn payment-btn-primary" onclick="swillApp.closeModal(document.getElementById('paymentModal'))">
-                            👍 Понятно
-                        </button>
-                    </div>
-                `;
-                
+                // Открываем окно успеха
                 setTimeout(() => {
-                    paymentBody.innerHTML = successHTML;
-                    clearInterval(this.paymentTimerInterval);
-                }, 1500);
+                    this.openModal('successModal');
+                }, 500);
             }
         }
 
@@ -1592,8 +1705,8 @@
             });
         }
 
-        function completePayment() {
-            swillApp.completePayment();
+        function showSuccessModal() {
+            swillApp.showSuccessModal();
         }
 
         function contactSupport() {
